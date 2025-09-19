@@ -34,12 +34,12 @@ public class LoginService {
     }
 
     private UsuarioEntity buscarOuCriarUsuario(TokenDecoded tokenDecoded) {
-        var user = usuarioRepository.findBySapiensId(tokenDecoded.getSapiensId()).orElseGet(
+        var user = usuarioRepository.findBySapiensId(tokenDecoded.sapiensId()).orElseGet(
                 () -> {
                     UsuarioEntity newUser = new UsuarioEntity();
-                    newUser.setSapiensId(tokenDecoded.getSapiensId());
-                    newUser.setNome(tokenDecoded.getNome());
-                    newUser.setEmail(tokenDecoded.getEmail());
+                    newUser.setSapiensId(tokenDecoded.sapiensId());
+                    newUser.setNome(tokenDecoded.nome());
+                    newUser.setEmail(tokenDecoded.email());
                     newUser.setRole(USER);
                     newUser.setCriadoEm(LocalDateTime.now(
                             java.time.ZoneId.of(SAO_PAULO_ZONE_ID)

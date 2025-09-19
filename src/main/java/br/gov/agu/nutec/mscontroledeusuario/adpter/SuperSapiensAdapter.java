@@ -12,7 +12,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SuperSapiensAdapter {
 
-
     private final WebClient webClient;
 
 
