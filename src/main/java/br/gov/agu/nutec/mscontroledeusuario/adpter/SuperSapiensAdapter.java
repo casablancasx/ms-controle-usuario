@@ -28,6 +28,7 @@ public class SuperSapiensAdapter {
                 .block();
 
 
+        assert json != null;
         return json.get("token").asText();
     }
 

@@ -12,26 +12,26 @@ public class TokenUtil {
     public static TokenDecoded decodeToken(String token) {
         DecodedJWT jwt = JWT.decode(token);
 
-        TokenDecoded tokenDecoded = new TokenDecoded();
-        tokenDecoded.setSapiensId(jwt.getClaim("id").asLong());
-        tokenDecoded.setNome(jwt.getClaim("nome").asString());
-        tokenDecoded.setCpf(jwt.getClaim("username").asString());
-        tokenDecoded.setEmail(jwt.getClaim("email").asString());
 
         List<String> roles = jwt.getClaim("roles").asList(String.class);
 
+        Long setorId = null;
+        Long unidadeId = null;
         for (String role : roles) {
             if (role.startsWith("ACL_SETOR_")) {
-                long setorId = Long.parseLong(role.substring("ACL_SETOR_" .length()));
-                tokenDecoded.setSetorId(setorId);
-
+                 setorId = Long.parseLong(role.substring("ACL_SETOR_" .length()));
             }
             if (role.startsWith("ACL_UNIDADE_")) {
-                long unidadeId = Long.parseLong(role.substring("ACL_UNIDADE_" .length()));
-                tokenDecoded.setUnidadeId(unidadeId);
+                 unidadeId = Long.parseLong(role.substring("ACL_UNIDADE_" .length()));
             }
         }
 
-        return tokenDecoded;
+        return new TokenDecoded(
+                jwt.getClaim("nome").asString(),
+                jwt.getClaim("username").asString(),
+                jwt.getClaim("email").asString(),
+                jwt.getClaim("id").asLong(),
+                setorId,
+                unidadeId);
     }
 }
