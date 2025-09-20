@@ -20,6 +20,7 @@ public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "usuario_id")
     private Long usuarioId;
 
     private String nome;
@@ -44,6 +45,5 @@ public class UsuarioEntity {
     private LocalDateTime criadoEm;
 
     @Column(name = "ultimo_acesso")
-
     private LocalDateTime ultimoAcesso;
 }
