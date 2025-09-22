@@ -1,8 +1,10 @@
 package br.gov.agu.nutec.mscontroledeusuario.adpter;
 
 import br.gov.agu.nutec.mscontroledeusuario.dto.LoginRequestDTO;
+import br.gov.agu.nutec.mscontroledeusuario.exception.AuthenticationException;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -19,16 +21,19 @@ public class SuperSapiensAdapter {
 
         var body = Map.of("username", dadosLogin.email(), "password", dadosLogin.password());
 
-        JsonNode json = webClient.post()
+        ResponseEntity<JsonNode> response = webClient.post()
                 .uri("/auth/ldap_get_token")
                 .bodyValue(body)
                 .retrieve()
-                .bodyToMono(JsonNode.class)
+                .toEntity(JsonNode.class)
+                .doOnError(e -> {
+                    throw new AuthenticationException("Erro ao obter token de autenticação do SuperSapiens: " + e.getMessage());
+                })
                 .block();
 
 
-        assert json != null;
-        return json.get("token").asText();
+        assert response != null;
+        return response.getBody().get("token").asText();
     }
 
 }
