@@ -1,6 +1,7 @@
 package br.gov.agu.nutec.mscontroledeusuario.adpter;
 
 import br.gov.agu.nutec.mscontroledeusuario.dto.LoginRequestDTO;
+import br.gov.agu.nutec.mscontroledeusuario.dto.SetorResponseDTO;
 import br.gov.agu.nutec.mscontroledeusuario.exception.AuthenticationException;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
@@ -37,30 +38,24 @@ public class SuperSapiensAdapter {
     }
 
 
-    public String getNomeSetor(Long setorId, String token){
+    public SetorResponseDTO buscarSetorNoSapiens(Long setorId, String token){
         var request = webClient.get()
-                .uri("/v1/administrativo/setor/" + setorId)
+                .uri(uriBuilder -> uriBuilder
+                        .path("/v1/administrativo/setor/{id}")
+                        .queryParam("populate", "[\"unidade\"]")
+                        .build(setorId))
                 .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();
 
-        return request.get("nome").asText();
+        return new SetorResponseDTO(
+                request.get("unidade").get("id").asLong(),
+                request.get("unidade").get("nome").asText(),
+                request.get("id").asLong(),
+                request.get("nome").asText()
+        );
     }
-
-    public String getNomeUnidade(Long unidadeId, String token){
-        var request = webClient.get()
-                .uri("/v1/administrativo/unidade/" + unidadeId)
-                .header("Authorization", "Bearer " + token)
-                .retrieve()
-                .bodyToMono(JsonNode.class)
-                .block();
-
-        return request.get("nome").asText();
-    }
-
-
-
 
 
 }

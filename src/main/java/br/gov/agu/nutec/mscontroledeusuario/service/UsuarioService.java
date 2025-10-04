@@ -41,7 +41,8 @@ public class UsuarioService {
         novoUsuario.setSapiensId(tokenDecoded.sapiensId());
         novoUsuario.setCriadoEm(LocalDateTime.now(ZoneId.of(SAO_PAULO_ZONE_ID)));
         novoUsuario.setUltimoAcesso(LocalDateTime.now(ZoneId.of(SAO_PAULO_ZONE_ID)));
-        novoUsuario.setSetor(setorService.buscarSetorPorId(tokenDecoded.setorId(), tokenDecoded.token()));
+        var setor = setorService.buscarSetorPorId(tokenDecoded.setorId(), tokenDecoded.token());
+        novoUsuario.setSetor(setor);
         novoUsuario.setRole(UserRole.USER);
         return usuarioRepository.save(novoUsuario);
     }

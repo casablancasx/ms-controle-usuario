@@ -11,15 +11,13 @@ import org.springframework.stereotype.Service;
 public class UnidadeService {
 
     private final UnidadeRepository unidadeRepository;
-    private final SuperSapiensAdapter adapter;
 
 
-    public UnidadeEntity buscarUnidade(Long unidadeId, String token) {
-        return unidadeRepository.findById(unidadeId).orElseGet(() -> criarUnidade(unidadeId, token));
+    public UnidadeEntity buscarUnidade(Long unidadeId, String nomeUnidade) {
+        return unidadeRepository.findById(unidadeId).orElseGet(() -> criarUnidade(unidadeId, nomeUnidade));
     }
 
-    private UnidadeEntity criarUnidade(Long unidadeId, String token) {
-        String nomeUnidade = adapter.getNomeUnidade(unidadeId,token);
+    private UnidadeEntity criarUnidade(Long unidadeId, String nomeUnidade) {
         return unidadeRepository.save(new UnidadeEntity(unidadeId, nomeUnidade));
     }
 }
