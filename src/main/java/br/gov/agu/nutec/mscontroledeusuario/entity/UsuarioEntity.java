@@ -32,11 +32,9 @@ public class UsuarioEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name = "setor_id")
-    private Long setorId;
-
-    @Column(name = "unidade_id")
-    private Long unidadeId;
+    @ManyToOne
+    @JoinColumn(name = "setor_id")
+    private SetorEntity setor;
 
     @Column(name = "sapiens_id", unique = true)
     private Long sapiensId;

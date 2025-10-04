@@ -32,6 +32,7 @@ public class TokenUtil {
                 jwt.getClaim("email").asString(),
                 jwt.getClaim("id").asLong(),
                 unidadeId,
-                setorId);
+                setorId,
+                token);
     }
 }

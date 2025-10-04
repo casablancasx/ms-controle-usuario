@@ -36,4 +36,31 @@ public class SuperSapiensAdapter {
         return response.getBody().get("token").asText();
     }
 
+
+    public String getNomeSetor(Long setorId, String token){
+        var request = webClient.get()
+                .uri("/v1/administrativo/setor/" + setorId)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .block();
+
+        return request.get("nome").asText();
+    }
+
+    public String getNomeUnidade(Long unidadeId, String token){
+        var request = webClient.get()
+                .uri("/v1/administrativo/unidade/" + unidadeId)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .block();
+
+        return request.get("nome").asText();
+    }
+
+
+
+
+
 }
