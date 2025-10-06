@@ -18,10 +18,9 @@ import java.time.LocalDateTime;
 public class UsuarioEntity {
 
 
+    @Column(name = "sapiens_id", unique = true)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "usuario_id")
-    private Long usuarioId;
+    private Long sapiensId;
 
     private String nome;
 
@@ -36,8 +35,6 @@ public class UsuarioEntity {
     @JoinColumn(name = "setor_id")
     private SetorEntity setor;
 
-    @Column(name = "sapiens_id", unique = true)
-    private Long sapiensId;
 
     @Column(name = "criado_em")
     private LocalDateTime criadoEm;

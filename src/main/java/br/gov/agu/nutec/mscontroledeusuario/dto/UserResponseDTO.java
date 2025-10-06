@@ -1,10 +1,8 @@
 package br.gov.agu.nutec.mscontroledeusuario.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record UserResponseDTO(
-        @JsonProperty("usuario_id")
-        Long usuarioId,
+        Long sapiensId,
         String nome,
         String email,
         SetorResponse setor
