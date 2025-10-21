@@ -9,7 +9,6 @@ import br.gov.agu.nutec.mscontroledeusuario.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static br.gov.agu.nutec.mscontroledeusuario.util.TokenUtil.decodeToken;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class AuthService {
 
     public LoginResponseDTO login(LoginRequestDTO loginRequest) {
         String token = superSapiensAdapter.getAuthTokenSuperSapiens(loginRequest);
-        TokenDecoded tokenDecoded = decodeToken(token);
+        TokenDecoded tokenDecoded = tokenService.decodeToken(token);
         var user = usuarioService.buscarUsuario(tokenDecoded);
         tokenService.salvarToken(tokenDecoded.email(), token);
         var userResponse = mapper.mapToResponse(user);
@@ -31,7 +30,7 @@ public class AuthService {
 
     public RefreshTokenResponseDTO refreshAccessToken(String refreshToken) {
         String novoToken = superSapiensAdapter.refreshAuthTokenSuperSapiens(refreshToken);
-        TokenDecoded tokenDecoded = decodeToken(novoToken);
+        TokenDecoded tokenDecoded = tokenService.decodeToken(novoToken);
         tokenService.salvarToken(tokenDecoded.email(), novoToken);
         return new RefreshTokenResponseDTO(novoToken);
     }
