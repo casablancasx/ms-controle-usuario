@@ -24,7 +24,7 @@ public class AuthService {
         String token = superSapiensAdapter.getAuthTokenSuperSapiens(loginRequest);
         TokenDecoded tokenDecoded = decodeToken(token);
         var user = usuarioService.buscarUsuario(tokenDecoded);
-        tokenService.salvarToken(user.getEmail(), token);
+        tokenService.salvarToken(tokenDecoded.email(), token);
         var userResponse = mapper.mapToResponse(user);
         return new LoginResponseDTO(userResponse, token);
     }
