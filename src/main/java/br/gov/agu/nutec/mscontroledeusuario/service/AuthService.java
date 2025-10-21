@@ -18,17 +18,21 @@ public class AuthService {
     private final SuperSapiensAdapter superSapiensAdapter;
     private final UsuarioService usuarioService;
     private final UsuarioMapper mapper;
+    private final TokenService tokenService;
 
     public LoginResponseDTO login(LoginRequestDTO loginRequest) {
         String token = superSapiensAdapter.getAuthTokenSuperSapiens(loginRequest);
         TokenDecoded tokenDecoded = decodeToken(token);
         var user = usuarioService.buscarUsuario(tokenDecoded);
+        tokenService.salvarToken(user.getEmail(), token);
         var userResponse = mapper.mapToResponse(user);
         return new LoginResponseDTO(userResponse, token);
     }
 
     public RefreshTokenResponseDTO refreshAccessToken(String refreshToken) {
         String novoToken = superSapiensAdapter.refreshAuthTokenSuperSapiens(refreshToken);
+        TokenDecoded tokenDecoded = decodeToken(novoToken);
+        tokenService.salvarToken(tokenDecoded.email(), novoToken);
         return new RefreshTokenResponseDTO(novoToken);
     }
 }
