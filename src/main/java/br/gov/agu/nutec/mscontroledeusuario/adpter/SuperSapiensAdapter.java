@@ -61,7 +61,7 @@ public class SuperSapiensAdapter {
     public String refreshAuthTokenSuperSapiens(String refreshToken) {
         var request = webClient.get()
                 .uri("/auth/refresh_token")
-                .header("Authorization", "Bearer " + refreshToken)
+                .header("Authorization",  refreshToken)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();

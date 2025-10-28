@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class TokenService {
 
 
     public void salvarToken(String username, String token) {
-        redisTemplate.opsForValue().set(username, token);
+        redisTemplate.opsForValue().set(username, token,30, TimeUnit.MINUTES);
     }
 
     public TokenDecoded decodeToken(String token) {
