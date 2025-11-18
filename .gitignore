@@ -34,3 +34,6 @@ build/
 
 # Ignorar application.properties local de configuração
 src/main/resources/application.properties
+
+# Ignorar application.properties local de configuração se ausente
+src/main/resources/application.properties
